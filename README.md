@@ -1,8 +1,6 @@
 SimpleVFX: A simple way to spawn image-based visual effects in PyGame.
 
-This repo contains 2 files:
-SimpleVFX.py, the file with the actual code
-SimpleVFXExample.py, an example showing how you can use it
+This repo contains 2 files: SimpleVFX.py, the file with the actual code, and SimpleVFXExample.py, an example showing how you can use it
 
 All classes and functions in the main file are thoroughly commented, but please open an Issue if anything is unclear.
 
