@@ -35,7 +35,6 @@ class VisualEffect:
     # none
     # @exceptions:
     # AttributeError, raised if the effect's source does not have a rect (pygame.Rect or pygame.rect.Rect) attribute
-    # ValueError, raised if the effect's images were loaded with mirrors but the facing direction is not specified
     def __init__(self, source: Any, image_master: dict[str, pygame.Surface] | dict[str, dict[ImageDirection, pygame.Surface]], image_name: str,
                  direction: ImageDirection | list[ImageDirection] | tuple[ImageDirection] | None=None, rotation: float=0, alpha: int=255,
                  offset: tuple[float, float]=(0.0, 0.0), scale: tuple[float, float]=(1.0, 1.0), linked_to_source: bool=False) -> None:
@@ -46,18 +45,15 @@ class VisualEffect:
 
         self.image: pygame.Surface = image_master[image_name.upper()]
         if isinstance(self.image, dict):
-            is_valid: bool = False
-            if isinstance(direction, str) and direction in [ImageDirection.LEFT, ImageDirection.RIGHT]:
+            if isinstance(direction, ImageDirection) and direction in [ImageDirection.LEFT, ImageDirection.RIGHT]:
                 self.image = self.image[direction]
-                is_valid = True
             elif isinstance(direction, (list, tuple)):
                 for valid_direction in direction:
                     if valid_direction in [ImageDirection.LEFT, ImageDirection.RIGHT]:
                         self.image = self.image[valid_direction]
-                        is_valid = True
                         break
-            if not is_valid:
-                raise ValueError("Images loaded with mirrors require a specified LEFT or RIGHT direction.")
+            else:
+                self.image = self.image[ImageDirection.RIGHT]
 
         if isinstance(direction, ImageDirection) or direction is None:
             self.direction: list[ImageDirection] = [direction]
